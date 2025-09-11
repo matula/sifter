@@ -2,6 +2,11 @@
 
 Detect spammy or bot-like input in Laravel forms using lightweight, configurable heuristics. Sifter ships with several checks (vowel ratio, repetitive chars, excessive capitals, numeric characters, entropy, and consecutive runs) and integrates with Laravel validation out of the box.
 
+## About
+I've been seeing accounts registered with the name field like "BBXQxwcf" or "DlaKsvRqiFA", and they even subvert Cloudflare and a honeypot. These are obvious spam accounts, so I decided to create a simple validation to help tackle most of these.  
+Keep in mind, this is a brute-force validation and only targeting English characters and names. You can use the config file to get more lenient or strict about the rules, but the defaults are what I found to catch most of spam. 
+Personally, I do a programmatic check just on the 'name' field, and redirect to a `404` if it fails... hoping that will dissuade more attempts. 
+
 ## Requirements
 - PHP 8.2+
 - Laravel 11.x or 12.x

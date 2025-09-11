@@ -29,6 +29,7 @@ Thumbs.db
 /coverage/
 .phpunit.result.cache
 phpunit.xml
+.phpunit.cache
 
 # Build artifacts
 /build/
