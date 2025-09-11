@@ -1,0 +1,45 @@
+{
+  "name": "matula/sifter",
+  "description": "Detect spammy input on Laravel forms",
+  "version": "1.0.0",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "php": "^8.2",
+    "illuminate/support": "^11.0|^12.0",
+    "illuminate/validation": "^11.0|^12.0"
+  },
+  "autoload": {
+    "psr-4": {
+      "Matula\\Sifter\\": "src/"
+    }
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Matula\\Sifter\\SifterServiceProvider"
+      ]
+    }
+  },
+  "require-dev": {
+    "pestphp/pest": "^2.0",
+    "phpunit/phpunit": "^10.5"
+  },
+  "scripts": {
+    "test": "pest",
+    "test:coverage": "pest --coverage"
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "authors": [
+    {
+      "name": "Terry Matula",
+      "email": "terrymatula@gmail.com"
+    }
+  ],
+  "config": {
+    "allow-plugins": {
+      "pestphp/pest-plugin": true
+    }
+  }
+}
