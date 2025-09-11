@@ -29,7 +29,7 @@ class SifterServiceProvider extends ServiceProvider
         // Register a convenient string-based alias for the validation rule
         Validator::extend('sifted', function ($attribute, $value, $parameters, $validator) {
             return (new Sifted())->passes($attribute, $value);
-        }, 'The :attribute appears to be spam.');
+        }, 'The :attribute is not a valid value.');
     }
 
     /**

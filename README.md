@@ -28,7 +28,7 @@ $request->validate([
     // or: new \\Matula\\Sifter\\Rules\\Sifted(),
 ]);
 ```
-On failure, the rule reports that the field appears to be spam.
+On failure, the rule reports that the value is not valid.
 
 ### Programmatic check
 ```php

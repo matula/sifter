@@ -34,6 +34,6 @@ class Sifted implements Rule
      */
     public function message(): string
     {
-        return 'The :attribute does not pass validation.';
+        return 'The :attribute is not a valid value.';
     }
 }
