@@ -35,6 +35,11 @@ $request->validate([
 ```
 On failure, the rule reports that the value is not valid.
 
+If you'd like to `abort` without doing a programmatic check, you can add a 404 argument like `sifted:404`. This will 
+instead show a 404 page instead of redirecting back with an error.  
+
+*Technically, it will accept ANY numeric value and run abort with that number (even 2xx). I may update that later, but it fits my purpose for now.*
+
 ### Programmatic check
 ```php
 use Matula\\Sifter\\Sifter;
