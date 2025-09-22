@@ -7,6 +7,11 @@ use Matula\Sifter\Sifter;
 
 class Sifted implements Rule
 {
+    public function __construct(
+        private ?int $abortCode = null,
+    ) {
+    }
+
     /**
      * Determine if the validation rule passes.
      *
@@ -24,7 +29,13 @@ class Sifted implements Rule
         $detector = app(Sifter::class);
 
         // The rule passes if the detector returns false (i.e., it is NOT spam).
-        return !$detector->isSpam($value);
+        $isSpam = $detector->isSpam($value);
+
+        if ($isSpam && $this->abortCode !== null) {
+            abort($this->abortCode);
+        }
+
+        return !$isSpam;
     }
 
     /**
