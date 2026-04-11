@@ -22,3 +22,13 @@ it('ignores very short strings', function () {
     expect($result)->toBeNull();
 });
 
+it('respects configurable min_length', function () {
+    $check = new HighEntropyCheck();
+    // 'abcde' is 5 chars with ratio 1.0, but default min_length=6 skips it
+    $result = $check->evaluate('abcde', ['max_ratio' => 0.8]);
+    expect($result)->toBeNull();
+
+    // Same string with min_length=4 should trigger
+    $result = $check->evaluate('abcde', ['max_ratio' => 0.8, 'min_length' => 4]);
+    expect($result)->toBeArray();
+});

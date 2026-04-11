@@ -12,7 +12,7 @@ class ConsecutiveVowelsCheck implements CheckInterface
     public function evaluate(string $input, array $config): ?array
     {
         $max = (int) ($config['max_consecutive'] ?? 2);
-        $pattern = '/[aeiouAEIOU]{'.$max.',}/';
+        $pattern = '/[aeiouAEIOU]{'.($max + 1).',}/';
         if ((bool) preg_match($pattern, $input)) {
             return [
                 'message' => 'Too many consecutive vowels',

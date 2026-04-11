@@ -2,10 +2,11 @@
 
 namespace Matula\Sifter\Rules;
 
-use Illuminate\Contracts\Validation\Rule;
+use Closure;
+use Illuminate\Contracts\Validation\ValidationRule;
 use Matula\Sifter\Sifter;
 
-class Sifted implements Rule
+class Sifted implements ValidationRule
 {
     public function __construct(
         private ?int $abortCode = null,
@@ -13,38 +14,24 @@ class Sifted implements Rule
     }
 
     /**
-     * Determine if the validation rule passes.
-     *
-     * @param  string  $attribute
-     * @param  mixed  $value
-     * @return bool
+     * Run the validation rule.
      */
-    public function passes($attribute, $value): bool
+    public function validate(string $attribute, mixed $value, Closure $fail): void
     {
         // We only validate strings. Other types pass automatically.
         if (!is_string($value)) {
-            return true;
+            return;
         }
 
         $detector = app(Sifter::class);
-
-        // The rule passes if the detector returns false (i.e., it is NOT spam).
         $isSpam = $detector->isSpam($value);
 
         if ($isSpam && $this->abortCode !== null) {
             abort($this->abortCode);
         }
 
-        return !$isSpam;
-    }
-
-    /**
-     * Get the validation error message.
-     *
-     * @return string
-     */
-    public function message(): string
-    {
-        return 'The :attribute is not a valid value.';
+        if ($isSpam) {
+            $fail('The :attribute is not a valid value.');
+        }
     }
 }

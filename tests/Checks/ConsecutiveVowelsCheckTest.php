@@ -4,9 +4,15 @@ use Matula\Sifter\Checks\ConsecutiveVowelsCheck;
 
 it('flags too many consecutive vowels', function () {
     $check = new ConsecutiveVowelsCheck();
-    $result = $check->evaluate('ae', ['max_consecutive' => 2]);
+    $result = $check->evaluate('aei', ['max_consecutive' => 2]);
     expect($result)->toBeArray()
         ->and($result['message'])->toBe('Too many consecutive vowels');
+});
+
+it('passes when vowel runs are at or below max', function () {
+    $check = new ConsecutiveVowelsCheck();
+    $result = $check->evaluate('ae', ['max_consecutive' => 2]);
+    expect($result)->toBeNull();
 });
 
 it('passes when vowel runs are small', function () {
@@ -14,4 +20,3 @@ it('passes when vowel runs are small', function () {
     $result = $check->evaluate('a', ['max_consecutive' => 2]);
     expect($result)->toBeNull();
 });
-
