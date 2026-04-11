@@ -12,7 +12,8 @@ class HighEntropyCheck implements CheckInterface
     public function evaluate(string $input, array $config): ?array
     {
         $length = strlen($input);
-        if ($length < 6) {
+        $minLength = (int) ($config['min_length'] ?? 6);
+        if ($length < $minLength) {
             return null; // Entropy not meaningful for very short strings
         }
         $uniqueChars = count(array_unique(str_split($input)));

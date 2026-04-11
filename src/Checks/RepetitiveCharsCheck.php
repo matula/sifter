@@ -11,10 +11,8 @@ class RepetitiveCharsCheck implements CheckInterface
 
     public function evaluate(string $input, array $config): ?array
     {
-        // Keep behavior aligned with legacy method: +1 on configured threshold
         $threshold = (int) ($config['max_repetitive'] ?? 2);
-        $max = $threshold + 1;
-        $pattern = '/(.)\\1{'.$max.',}/i';
+        $pattern = '/(.)\\1{'.$threshold.',}/i';
 
         if ((bool) preg_match($pattern, $input)) {
             return [

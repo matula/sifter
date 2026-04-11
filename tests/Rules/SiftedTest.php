@@ -47,10 +47,42 @@ it('aborts with provided status code when spam is detected', function () {
         }
     });
 
-    expect(fn() => (new Sifted(404))->passes('content', 'SPAMMY'))
+    expect(fn() => (new Sifted(404))->validate('content', 'SPAMMY', fn($m) => null))
         ->toThrow(AbortException::class)
         ->and($GLOBALS['__sifter_abort_code'])
         ->toBe(404);
 
     Container::setInstance(null);
+});
+
+it('calls fail closure when spam is detected without abort code', function () {
+    $container = new Container();
+    Container::setInstance($container);
+
+    $container->instance(Sifter::class, new class () {
+        public function isSpam(mixed $value): bool
+        {
+            return true;
+        }
+    });
+
+    $failCalled = false;
+    $failMessage = null;
+    (new Sifted())->validate('content', 'SPAMMY', function ($msg) use (&$failCalled, &$failMessage) {
+        $failCalled = true;
+        $failMessage = $msg;
+    });
+
+    expect($failCalled)->toBeTrue()
+        ->and($failMessage)->toBe('The :attribute is not a valid value.');
+
+    Container::setInstance(null);
+});
+
+it('passes non-string values without calling fail', function () {
+    $failCalled = false;
+    (new Sifted())->validate('content', 123, function ($msg) use (&$failCalled) {
+        $failCalled = true;
+    });
+    expect($failCalled)->toBeFalse();
 });

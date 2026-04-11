@@ -4,7 +4,6 @@ namespace Matula\Sifter;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Support\Facades\Validator;
-use Matula\Sifter\Rules\Sifted;
 use Matula\Sifter\Checks\VowelRatioCheck;
 use Matula\Sifter\Checks\RepetitiveCharsCheck;
 use Matula\Sifter\Checks\ExcessiveCapitalsCheck;
@@ -28,6 +27,10 @@ class SifterServiceProvider extends ServiceProvider
 
         // Register a convenient string-based alias for the validation rule
         Validator::extend('sifted', function ($attribute, $value, $parameters, $validator) {
+            if (!is_string($value)) {
+                return true;
+            }
+
             $abortCode = null;
 
             if (!empty($parameters)) {
@@ -38,7 +41,14 @@ class SifterServiceProvider extends ServiceProvider
                 }
             }
 
-            return (new Sifted($abortCode))->passes($attribute, $value);
+            $detector = app(Sifter::class);
+            $isSpam = $detector->isSpam($value);
+
+            if ($isSpam && $abortCode !== null) {
+                abort($abortCode);
+            }
+
+            return !$isSpam;
         }, 'The :attribute is not a valid value.');
     }
 

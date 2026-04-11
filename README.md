@@ -9,7 +9,7 @@ Personally, I do a programmatic check just on the 'name' field, and redirect to 
 
 ## Requirements
 - PHP 8.2+
-- Laravel 11.x or 12.x
+- Laravel 11.x, 12.x, or 13.x
 
 ## Installation
 ```bash

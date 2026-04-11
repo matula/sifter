@@ -71,6 +71,7 @@ return [
         'high_entropy' => [
             'enabled' => true,
             'max_ratio' => 0.8, // Max 80% unique characters for strings > 5 chars
+            'min_length' => 6, // Minimum string length before entropy check applies
         ],
     ],
 ];

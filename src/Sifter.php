@@ -24,7 +24,7 @@ class Sifter
      */
     public function isSpam(string $input): bool
     {
-        if (!$this->config['enabled']) {
+        if (!($this->config['enabled'] ?? true)) {
             return false;
         }
 
@@ -53,7 +53,7 @@ class Sifter
     public function analyze(string $input): array
     {
         $results = [];
-        if (!($this->config['enabled'] ?? false)) {
+        if (!($this->config['enabled'] ?? true)) {
             return $results;
         }
 
